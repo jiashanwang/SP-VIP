@@ -1,0 +1,53 @@
+基础库
+flask
+flask-sqlalchemy
+flask-sqlacodegen
+pymysql
+flask-cors
+PyJWT
+requests
+xmltodict
+bcrypt
+pycryptodome
+simplejson  该模块用于处理mysql 中的decimal 不能json 序列化的问题
+
+
+下载数据库查询的数据文件使用
+pip install Flask-Excel
+pip install pyexcel-xls
+pip install pyexcel-xlsx
+pip install pyexcel-ods
+
+微信支付apiV3 版本需要依赖的库
+pip install pycryptodomex
+pip install cryptography
+微信支付apiV3
+pip install wechatpayv3
+
+使用 flask-sqlacodegen 扩展方便快速生成 ORM model
+生成单个表
+flask-sqlacodegen "mysql+pymysql://root:atwillpay&mustWin2023@1.14.43.168:3306/paymentCMJ" --tables app_order --outfile "common/mock_order.py" --flask
+
+生成所有表
+flask-sqlacodegen "mysql+pymysql://root:atwillpay&mustWin2023@1.14.43.168:3306/paymentZPW" --outfile "common/models.py"  --flask
+
+
+获取python项目的requeirement.txt文件
+
+pip freeze > requirements.txt  生成requirements.txt
+pip install -r requirements.txt 安装依赖包
+
+centos7 ,Crontab服务的启动和关闭命令如下
+# 启动服务
+service crond start
+# 关闭服务
+service crond stop
+# 重启服务
+service crond restart
+# 重新载入配置
+service crond reload
+# 查看crontab服务状态
+service crond status
+查询当日订单数量
+select * from app_order where to_days(create_time) = to_days(now());
+
