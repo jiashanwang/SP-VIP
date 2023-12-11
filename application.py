@@ -14,7 +14,7 @@ class Application(Flask):
         db.init_app(self)
 
 
-file_name = os.path.join(os.path.dirname(os.path.dirname(__file__)), "zftd_backCode_flask/log.txt")
+file_name = os.path.join(os.path.dirname(os.path.dirname(__file__)), "SP-VIP/log.txt")
 # 判断文件是否存在，不存在就创建
 if not os.path.exists(file_name):
     f = open("log.txt", 'w', encoding="utf-8")

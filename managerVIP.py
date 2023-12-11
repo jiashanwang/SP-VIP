@@ -19,4 +19,4 @@ if __name__ == "__main__":
     handler.setFormatter(logging_format)
     app.logger.addHandler(handler)
     excel.init_excel(app)
-    app.run(host="0.0.0.0", port=4002)
+    app.run(host="0.0.0.0", port=5000)
