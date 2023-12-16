@@ -138,7 +138,7 @@ def generate_sign(param, app_secret):
     for k in ks:
         stringA += (k + '=' + str(param[k]) + '&')
     # 拼接商户KEY
-    string_sign_temp = stringA + "secret=" +app_secret
+    string_sign_temp = stringA + "secret=" + app_secret
     # md5加密,也可以用其他方式
     hash_md5 = hashlib.md5(string_sign_temp.encode('utf8'))
     sign = hash_md5.hexdigest().upper()  # 大写的32位
@@ -246,6 +246,19 @@ def secondsToYMDHMS(seconds):
     timeArray = time.localtime(seconds)
     other_style_time = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
     return other_style_time
+
+
+def convert_to_seconds(year, month, day, hour, minute, second):
+    '''
+    将年月日 时分秒转化成 秒
+    '''
+    # 创建一个datetime对象
+    dt = datetime(year, month, day, hour, minute, second)
+
+    # 计算从1970年1月1日午夜开始的秒数（Unix时间戳）
+    seconds_since_epoch = (dt - datetime(1970, 1, 1)).total_seconds()
+
+    return int(seconds_since_epoch)
 
 
 def generate_random_string(length):

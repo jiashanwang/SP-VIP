@@ -29,7 +29,7 @@ pip install wechatpayv3
 flask-sqlacodegen "mysql+pymysql://root:atwillpay&mustWin2023@1.14.43.168:3306/paymentCMJ" --tables app_order --outfile "common/mock_order.py" --flask
 
 生成所有表
-flask-sqlacodegen "mysql+pymysql://root:atwillpay&mustWin2023@1.14.43.168:3306/SPVIP" --outfile "common/models1.py"  --flask
+flask-sqlacodegen "mysql+pymysql://root:893029b89da2ee68@111.92.240.170:3306/youtiaovip_cn?charset=utf8" --outfile "common/models2.py"  --flask
 
 
 获取python项目的requeirement.txt文件
