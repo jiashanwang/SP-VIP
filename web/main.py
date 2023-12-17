@@ -34,7 +34,7 @@ def createOrder():
 @main_page.route("/notifyToApp", methods=["POST"])
 def notifyToApp():
     '''
-    测试将支付成功的消息回
+    支付成功的消息回调
     '''
     params = request.json
     print(params)
@@ -50,6 +50,7 @@ def notifyToApp():
     curr_seconds = tools.convert_to_seconds(year, month, day, hour, minute, second)
     order_price = float(params.get("amount"))
     order_points = int(float(params.get("amount"))) * 10
+    # 1。修改订单支付状态
     mac_order = MacOrder.query.filter(MacOrder.order_code == params.get('outOrderNo')).first()
     mac_order.order_status = 1
     mac_order.order_time = curr_seconds
@@ -58,29 +59,33 @@ def notifyToApp():
     user_id = mac_order.user_id
     db.session.add(mac_order)
     db.session.commit()
+    # 2。修改客户积分
     mac_user = MacUser.query.filter(MacUser.user_id == user_id).first()
     mac_user.user_points = mac_user.user_points + order_points
     mac_user.user_end_time = curr_seconds
+    user_pid1 = mac_user.user_pid
+    user_pid2 = mac_user.user_pid_2
+    user_pid3 = mac_user.user_pid_3
     db.session.add(mac_user)
     db.session.commit()
+    # 3. 给上级分销商添加对应的推广奖励分 一级奖励50分，二级奖励30分，三级奖励10分
+    if user_pid1 > 0:
+        # 有一级分销商，则给一级分销商奖励积分
+        mac_user1 = MacUser.query.filter(MacUser.user_id == user_pid1).first()
+        mac_user1.user_points = mac_user1.user_points + 50
+        db.session.add(mac_user1)
+        db.session.commit()
+        if user_pid2 > 0:
+            mac_user2 = MacUser.query.filter(MacUser.user_id == user_pid2).first()
+            mac_user2.user_points = mac_user2.user_points + 30
+            db.session.add(mac_user2)
+            db.session.commit()
+            if user_pid3 > 0:
+                mac_user3 = MacUser.query.filter(MacUser.user_id == user_pid3).first()
+                mac_user3.user_points = mac_user3.user_points + 30
+                db.session.add(mac_user3)
+                db.session.commit()
     return "success"
 
 
-@main_page.route("/getRandomVideoList", methods=["POST"])
-def getRandomVideoList():
-    '''
-    从某一个视频分类中，随机抽取几个视频
-    '''
-    video_list_data = Video.query.filter(Video.from_category == params.get("cateId")).order_by(
-        Video.update_time.desc()).paginate(
-        page=int(params.get("page")),
-        per_page=int(
-            params.get("pageSize")),
-        error_out=False)
-    # # 遍历时要加上items
-    video_list = video_list_data.items
-    video_result_list = tools.cls_to_dict(video_list)
-    if len(video_result_list) > 0:
-        return jsonify(tools.return_data(0, "success", video_result_list))
-    else:
-        return jsonify(tools.return_data(1, "暂无数据"))
+
