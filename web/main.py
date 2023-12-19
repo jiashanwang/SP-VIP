@@ -94,8 +94,7 @@ def getVideoUrl():
     '''
     获取视频站点url （从备用池中选择）
     '''
-    url_list = ["https://pack.rftech.cc", "http://guoshengpay.cn", "https://down.meituan.baby",
-                "https://down.jiankun.art", "https://down.liangchaowei.xyz"]
+    url_list = ["https://down.meituan.baby", "https://down.jiankun.art", "https://down.liangchaowei.xyz"]
     valid_url = url_list[0]
     for item in url_list:
         app.logger.info("当前url链接==")
