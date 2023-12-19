@@ -94,7 +94,8 @@ def getVideoUrl():
     '''
     获取视频站点url （从备用池中选择）
     '''
-    url_list = ["https://down.meituan.baby", "https://down.jiankun.art", "https://down.liangchaowei.xyz"]
+    url_list = ["https://down.meituan.baby", "https://down.jiankun.art",
+                "https://down.liangchaowei.xyz"]
     valid_url = url_list[0]
     for item in url_list:
         app.logger.info("当前url链接==")
@@ -106,4 +107,5 @@ def getVideoUrl():
             break
     app.logger.info("最后返回正确的链接地址为==")
     app.logger.info(valid_url)
-    return jsonify(tools.return_data(0, "success", valid_url))
+    new_valid_url = valid_url + "/quye"
+    return jsonify(tools.return_data(0, "success", new_valid_url))
