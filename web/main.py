@@ -107,5 +107,5 @@ def getVideoUrl():
             break
     app.logger.info("最后返回正确的链接地址为==")
     app.logger.info(valid_url)
-    new_valid_url = valid_url + "/quye"
-    return jsonify(tools.return_data(0, "success", new_valid_url))
+    # new_valid_url = valid_url + "/quye"
+    return jsonify(tools.return_data(0, "success", valid_url))
