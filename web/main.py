@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 from flask import Blueprint, request, jsonify
-from common.models import MacOrder,MacUser
+from common.models import MacOrder, MacUser
 from application import db
+from application import app
 from common.utils import tools, bus
 import hashlib, time, jwt, random, requests, json, uuid
 from sqlalchemy.sql import text
@@ -88,4 +89,22 @@ def notifyToApp():
     return "success"
 
 
-
+@main_page.route("/getVideoUrl", methods=["POST"])
+def getVideoUrl():
+    '''
+    获取视频站点url （从备用池中选择）
+    '''
+    url_list = ["https://pack.rftech.cc", "http://guoshengpay.cn", "https://down.meituan.baby",
+                "https://down.jiankun.art", "https://down.liangchaowei.xyz"]
+    valid_url = url_list[0]
+    for item in url_list:
+        app.logger.info("当前url链接==")
+        app.logger.info(item)
+        is_valid = tools.is_valid_url(item)
+        if is_valid:
+            # True 有效
+            valid_url = item
+            break
+    app.logger.info("最后返回正确的链接地址为==")
+    app.logger.info(valid_url)
+    return jsonify(tools.return_data(0, "success", valid_url))

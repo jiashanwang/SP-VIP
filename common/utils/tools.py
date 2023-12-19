@@ -482,3 +482,30 @@ def write_xls(title_list, filed_list, data_list, user_name):
     curr_date = str(datetime.now()).split(" ")[0] + "-" + str(user_name) + "-order.xls"
     work_book.save(curr_date)
     return curr_date
+
+
+def is_valid_url(url):
+    '''
+    判断链接是否有效
+    '''
+    try:
+        # 发送 HEAD 请求，不下载页面内容，只获取响应头信息
+        response = requests.head(url, timeout=5)
+        # 判断响应状态码，2xx 表示成功
+        if response.status_code == 200:
+            # print(f"The URL {url} is valid.")
+            return True
+        else:
+            # print(f"The URL {url} returned a non-successful status code: {response.status_code}")
+            return False
+    except requests.exceptions.Timeout:
+        # 处理超时异常
+        # print(f"请求超时，超时时间为秒")
+        return False
+    except requests.ConnectionError:
+        # print(f"Connection error while checking the URL {url}.")
+        return False
+    except requests.exceptions.RequestException as e:
+        # 处理其他请求异常
+        # print(f"请求发生异常：{e}")
+        return False
