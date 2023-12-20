@@ -66,26 +66,26 @@ def notifyToApp():
     mac_user.user_end_time = curr_seconds
     user_pid1 = mac_user.user_pid
     user_pid2 = mac_user.user_pid_2
-    user_pid3 = mac_user.user_pid_3
+    # user_pid3 = mac_user.user_pid_3
     db.session.add(mac_user)
     db.session.commit()
     # 3. 给上级分销商添加对应的推广奖励分 一级奖励50分，二级奖励30分，三级奖励10分
     if user_pid1 > 0:
         # 有一级分销商，则给一级分销商奖励积分
         mac_user1 = MacUser.query.filter(MacUser.user_id == user_pid1).first()
-        mac_user1.user_points = mac_user1.user_points + 50
+        mac_user1.user_points = mac_user1.user_points + order_points * 0.3
         db.session.add(mac_user1)
         db.session.commit()
         if user_pid2 > 0:
             mac_user2 = MacUser.query.filter(MacUser.user_id == user_pid2).first()
-            mac_user2.user_points = mac_user2.user_points + 30
+            mac_user2.user_points = mac_user2.user_points + order_points * 0.3
             db.session.add(mac_user2)
             db.session.commit()
-            if user_pid3 > 0:
-                mac_user3 = MacUser.query.filter(MacUser.user_id == user_pid3).first()
-                mac_user3.user_points = mac_user3.user_points + 30
-                db.session.add(mac_user3)
-                db.session.commit()
+            # if user_pid3 > 0:
+            #     mac_user3 = MacUser.query.filter(MacUser.user_id == user_pid3).first()
+            #     mac_user3.user_points = mac_user3.user_points + 30
+            #     db.session.add(mac_user3)
+            #     db.session.commit()
     return "success"
 
 
